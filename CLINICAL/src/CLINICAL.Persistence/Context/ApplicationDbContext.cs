@@ -14,6 +14,9 @@ namespace CLINICAL.Persistence.Context
             _connectionString = _configuration.GetConnectionString("ClinicalConnection")!;
 
         }
+        /// <summary>
+        /// Ayuda a conectarse a cualquier base de datos
+        /// </summary>
         public IDbConnection CreateConnection => new SqlConnection(_connectionString); 
 
     }

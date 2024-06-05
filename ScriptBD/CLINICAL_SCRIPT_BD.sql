@@ -38,4 +38,26 @@ INSERT INTO Analysis(Name,State,AuditCreateDate) values(@Name,@State,@AuditCreat
 END
 
 
+CREATE PROCEDURE uspAnalysisEdit 
+(
+@AnalysisId INT,
+@Name VARCHAR(50)
+
+)
+AS
+BEGIN
+UPDATE Analysis SET Name = @Name
+WHERE AnalysisId = @AnalysisId
+END
+
+CREATE PROCEDURE uspAnalysisRemove 
+(
+@AnalysisId INT
+)
+AS
+BEGIN
+DELETE FROM Analysis 
+WHERE AnalysisId = @AnalysisId
+END
+
 -- exec uspAnalysisById 2
