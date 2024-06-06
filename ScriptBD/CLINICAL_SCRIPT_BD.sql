@@ -28,13 +28,12 @@ END
 GO
 CREATE PROCEDURE uspAnalysisRegister
 (
-@Name varchar(100),
-@State int,
-@AuditCreateDate datetime
+@Name varchar(100)
+
 )
 AS
 BEGIN
-INSERT INTO Analysis(Name,State,AuditCreateDate) values(@Name,@State,@AuditCreateDate);
+INSERT INTO Analysis(Name,State,AuditCreateDate) values(@Name,1,GETDATE());
 END
 
 

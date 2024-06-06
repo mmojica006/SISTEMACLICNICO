@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CLINICAL.Application.Interface;
+using CLINICAL.Application.Interface.Interfaces;
 using CLINICAL.Application.UseCase.Commons.Bases;
 using MediatR;
 
@@ -7,11 +7,11 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.DeleteCommand
 {
     public class DeleteAnalysisHandler : IRequestHandler<DeleteAnalysisCommand, BaseResponse<bool>>
     {
-        private readonly IAnalysisRepository _analysisRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public DeleteAnalysisHandler(IAnalysisRepository analysisRepository, IMapper mapper)
+        public DeleteAnalysisHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _analysisRepository = analysisRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         public async Task<BaseResponse<bool>> Handle(DeleteAnalysisCommand request, CancellationToken cancellationToken)
@@ -20,7 +20,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.DeleteCommand
 
             try
             {
-                response.Data = await _analysisRepository.AnalysisRemove(request.AnalysisId);
+                response.Data = await _unitOfWork.Analysis.ExecAsync("uspAnalysisRemove", new { request.AnalysisId });
                 if (response.Data)
                 {
                     response.IsSuccess = true;
