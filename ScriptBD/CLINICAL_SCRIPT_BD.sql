@@ -59,4 +59,16 @@ DELETE FROM Analysis
 WHERE AnalysisId = @AnalysisId
 END
 
+create or alter procedure uspAnalysischangEstate(
+@Analysis int,
+@State int
+)
+as
+begin
+
+update Analysis 
+set State = @State
+where AnalysisId = @Analysis
+
+end
 -- exec uspAnalysisById 2
