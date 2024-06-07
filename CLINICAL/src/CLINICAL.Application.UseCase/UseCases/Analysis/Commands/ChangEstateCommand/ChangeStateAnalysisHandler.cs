@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CLINICAL.Application.Interface.Interfaces;
 using CLINICAL.Application.UseCase.Commons.Bases;
+using CLINICAL.Utilities.Constants;
 using MediatR;
 using Entity = CLINICAL.Domain.Entities;
 
@@ -23,7 +24,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.ChangEstateCom
             {
                 var analysis = _mapper.Map<Entity.Analysis>(request);
                 var parameters = new { analysis.AnalysisId, analysis.State };
-                response.Data = await _unitOfWork.Analysis.ExecAsync("uspAnalysischangEstate", parameters);
+                response.Data = await _unitOfWork.Analysis.ExecAsync(SP.uspAnalysischangEstate, parameters);
 
                 if (response.Data)
                 {

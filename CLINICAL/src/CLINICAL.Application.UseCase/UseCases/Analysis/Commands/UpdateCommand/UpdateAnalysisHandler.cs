@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CLINICAL.Application.Interface.Interfaces;
 using CLINICAL.Application.UseCase.Commons.Bases;
+using CLINICAL.Utilities.Constants;
+using CLINICAL.Utilities.HelperExtensions;
 using MediatR;
 using Entity = CLINICAL.Domain.Entities;
 
@@ -22,8 +24,8 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.UpdateCommand
             try
             {
                 var analisys = _mapper.Map<Entity.Analysis>(request);
-                var parameter = new { analisys.AnalysisId, analisys.Name };
-                response.Data = await _unitOfWork.Analysis.ExecAsync("uspAnalysisEdit", parameter);
+                var parameter = analisys.GetPropertiesWithValues();
+                response.Data = await _unitOfWork.Analysis.ExecAsync(SP.uspAnalysisEdit, parameter);
 
                 if (response.Data)
                 {

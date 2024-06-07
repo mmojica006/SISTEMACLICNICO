@@ -2,6 +2,7 @@
 using CLINICAL.Application.Dtos.Analysis.Response;
 using CLINICAL.Application.Interface.Interfaces;
 using CLINICAL.Application.UseCase.Commons.Bases;
+using CLINICAL.Utilities.Constants;
 using MediatR;
 
 namespace CLINICAL.Application.UseCase.UseCases.Analysis.Queries.GetByIdQuery
@@ -20,7 +21,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Queries.GetByIdQuery
             var response = new BaseResponse<GetAnalysisByIdResponseDto>();
             try
             {
-                var analysis = await _unitOfWork.Analysis.GetByIdAsync("uspAnalysisById", new { request.AnalysisId });
+                var analysis = await _unitOfWork.Analysis.GetByIdAsync(SP.uspAnalysisById, request);
                 if (analysis is null)
                 {
                     response.IsSuccess = false;

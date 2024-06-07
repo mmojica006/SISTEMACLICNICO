@@ -60,7 +60,7 @@ WHERE AnalysisId = @AnalysisId
 END
 
 create or alter procedure uspAnalysischangEstate(
-@Analysis int,
+@AnalysisId int,
 @State int
 )
 as
@@ -68,7 +68,7 @@ begin
 
 update Analysis 
 set State = @State
-where AnalysisId = @Analysis
+where AnalysisId = @AnalysisId
 
 end
 -- exec uspAnalysisById 2
