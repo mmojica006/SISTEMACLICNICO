@@ -12,5 +12,6 @@ namespace CLINICAL.Application.Interface.Interfaces
         /// identidad Analysis mediante el repositorio generico
         /// </summary>
         IGenericRepository<Analysis> Analysis { get; }
+        IGenericRepository<Exam> Exam { get; }
     }
 }

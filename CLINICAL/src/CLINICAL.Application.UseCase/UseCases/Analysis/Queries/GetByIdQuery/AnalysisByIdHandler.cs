@@ -25,13 +25,13 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Queries.GetByIdQuery
                 if (analysis is null)
                 {
                     response.IsSuccess = false;
-                    response.Message = "No se encontraron registros";
+                    response.Message = GlobalMessages.MESSAGE_QUERY_EMPTY;
                     return response;
                 }
 
                 response.IsSuccess = true;
                 response.Data = _mapper.Map<GetAnalysisByIdResponseDto>(analysis);
-                response.Message = "Consulta Exitosa!!!";
+                response.Message = GlobalMessages.MESSAGE_QUERY;
 
             }
             catch (Exception ex)

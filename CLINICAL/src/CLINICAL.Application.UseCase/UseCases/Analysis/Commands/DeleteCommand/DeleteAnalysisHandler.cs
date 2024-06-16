@@ -25,7 +25,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.DeleteCommand
                 if (response.Data)
                 {
                     response.IsSuccess = true;
-                    response.Message = "Eliminación exitosa!!!";
+                    response.Message = GlobalMessages.MESSAGE_DELETE;
                 }
 
             }

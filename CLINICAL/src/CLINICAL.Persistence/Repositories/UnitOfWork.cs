@@ -10,10 +10,12 @@ namespace CLINICAL.Persistence.Repositories
     {
         public IGenericRepository<Analysis> Analysis { get; }
 
+        public IGenericRepository<Exam> Exam { get; }
 
-        public UnitOfWork(IGenericRepository<Analysis> analysis)
+        public UnitOfWork(IGenericRepository<Analysis> analysis, IGenericRepository<Exam> exam)
         {
             Analysis = analysis;
+            Exam = exam;
         }
 
         /// <summary>

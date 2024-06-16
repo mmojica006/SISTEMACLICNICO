@@ -29,7 +29,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Commands.ChangEstateCom
                 if (response.Data)
                 {
                     response.IsSuccess = true;
-                    response.Message = "Se actualizo el estado correctamente!";
+                    response.Message = GlobalMessages.MESSAGE_UPDATE_STATE;
                 }
 
 

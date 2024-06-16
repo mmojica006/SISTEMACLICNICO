@@ -26,7 +26,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Analysis.Queries.GetAllQuery
                 {
                     response.IsSuccess = true;
                     response.Data = _mapper.Map<IEnumerable<GetAllAnalysisResponseDto>>(analysis);
-                    response.Message = "Consulta Exitosa!!!";
+                    response.Message = GlobalMessages.MESSAGE_QUERY;
                 }
 
             }

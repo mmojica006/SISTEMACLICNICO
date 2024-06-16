@@ -10,5 +10,11 @@
         public const string uspAnalysisRemove = "uspAnalysisRemove";
         public const string uspAnalysischangEstate = "uspAnalysischangEstate";
         #endregion
+
+        #region uspExams
+        public const string uspExamList = "uspExamList";
+        public const string uspExamById = "uspExamById";
+        #endregion
+
     }
 }

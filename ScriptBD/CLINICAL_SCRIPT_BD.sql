@@ -71,4 +71,37 @@ set State = @State
 where AnalysisId = @AnalysisId
 
 end
+
+
+create table Exams(
+ExamId int identity(1,1) primary key not null,
+Name varchar(100),
+AnalysisId int not null,
+State int not null,
+AuditCreateDate datetime2(7) not null,
+foreign key (AnalysisId) references Analysis(AnalysisId)
+)
+
+
+
+create or alter procedure uspExamList
+as
+begin
+select ex.ExamId, ex.Name, an.Name Analysis ,ex.AuditCreateDate, case ex.State when 1 then 'Activo' else 'Inactivo' end StateExam 
+from Exams ex
+inner join Analysis an on ex.AnalysisId = an.AnalysisId
+end
+
+create or alter procedure uspExamById(
+@ExamId int
+)
+as
+begin
+	select ex.ExamId, ex.Name, ex.AnalysisId 
+
+	from Exams ex
+	where ex.ExamId=@ExamId
+end
+
+
 -- exec uspAnalysisById 2
