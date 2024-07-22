@@ -14,6 +14,8 @@
         #region uspExams
         public const string uspExamList = "uspExamList";
         public const string uspExamById = "uspExamById";
+        public const string uspExamRegister = "uspExamRegister";
+        public const string UspExamEdit = "UspExamEdit";
         #endregion
 
     }

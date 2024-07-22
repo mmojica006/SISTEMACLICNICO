@@ -1,4 +1,6 @@
-﻿using CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetAllQuery;
+﻿using CLINICAL.Application.UseCase.UseCases.Exam.Commands.CreateCommand;
+using CLINICAL.Application.UseCase.UseCases.Exam.Commands.UpdateCommand;
+using CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetAllQuery;
 using CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetByIdQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace CLINICAL.Api.Controller
         }
 
         [HttpGet("ListExams")]
-        public async Task<IActionResult> ListExams() 
+        public async Task<IActionResult> ListExams()
         {
             var response = await _mediator.Send(new GetAllExamQuery());
             return Ok(response);
@@ -26,9 +28,23 @@ namespace CLINICAL.Api.Controller
         [HttpGet("{examId:int}")]
         public async Task<IActionResult> ExamById(int examId)
         {
-            var response = await _mediator.Send(new GetExamByIdQuery() { ExamId= examId });
+            var response = await _mediator.Send(new GetExamByIdQuery() { ExamId = examId });
             return Ok(response);
 
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterExam([FromBody] CreateExamCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpPut("Edit")]
+        public async Task<IActionResult> EditExam([FromBody] UpdateExamCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
 
 

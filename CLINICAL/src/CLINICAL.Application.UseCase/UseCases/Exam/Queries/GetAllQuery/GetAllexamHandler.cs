@@ -8,10 +8,10 @@ namespace CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetAllQuery
 {
     public class GetAllexamHandler : IRequestHandler<GetAllExamQuery, BaseResponse<IEnumerable<GetAllExamResponseDto>>>
     {
-        private readonly IExamRepository _examRepository;
-        public GetAllexamHandler(IExamRepository examRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetAllexamHandler(IUnitOfWork unitOfWork)
         {
-            _examRepository = examRepository;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -22,7 +22,7 @@ namespace CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetAllQuery
 
             try 
             {
-                var exams = await _examRepository.GetAllExams(SP.uspExamList);
+                var exams = await _unitOfWork.Exam.GetAllExams(SP.uspExamList);
 
                 if (exams is not null) 
                 {

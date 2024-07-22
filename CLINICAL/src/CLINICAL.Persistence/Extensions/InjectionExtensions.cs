@@ -16,7 +16,7 @@ namespace CLINICAL.Persistence.Extensions
         {
             //Se configure como ciclo de vida singleton. Se crea una sola instancia de nuestra BD, ciclo de vida singleton
             services.AddSingleton<ApplicationDbContext>();
-            services.AddScoped<IExamRepository, ExamRepository>();
+            
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             return services;

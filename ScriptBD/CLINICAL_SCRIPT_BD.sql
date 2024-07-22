@@ -104,4 +104,31 @@ begin
 end
 
 
+
+create or alter procedure uspExamRegister
+(
+@Name varchar(100),
+@AnalysisId int
+)
+as
+begin
+
+insert into Exams (Name, AnalysisId, state, AuditCreateDate) values( @Name,@AnalysisId, 1,GETDATE())
+
+
+end
+
+
+Create or alter procedure UspExamEdit(
+@ExamId int,
+@Name varchar(100),
+@AnalysisId int
+)
+as
+
+begin
+	update Exams set Name = @Name, AnalysisId = @AnalysisId where ExamId = @ExamId
+end
+
+
 -- exec uspAnalysisById 2
