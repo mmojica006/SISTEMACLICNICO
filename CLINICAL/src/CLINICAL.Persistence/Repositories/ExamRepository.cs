@@ -10,7 +10,7 @@ namespace CLINICAL.Persistence.Repositories
     public class ExamRepository : GenericRepository<Exam>, IExamRepository
     {
         private readonly ApplicationDbContext _context;
-        public ExamRepository(ApplicationDbContext context): base(context) 
+        public ExamRepository(ApplicationDbContext context): base(context) //hace referencia a la instancia del generic
         {
             _context = context;
         }

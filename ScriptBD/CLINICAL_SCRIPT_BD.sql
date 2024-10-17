@@ -1,3 +1,5 @@
+--CREATE DATABASE CLINICAL
+--USE CLINICAL
 CREATE TABLE Analysis (
 	AnalysisId int identity(1,1) primary key not null,
 	Name varchar(50),
@@ -7,7 +9,7 @@ CREATE TABLE Analysis (
 go
 
 --uspAnalysisList
-CREATE PROCEDURE uspAnalysisList  as 
+CREATE or alter PROCEDURE uspAnalysisList  as 
 BEGIN
 select AnalysisId,Name,AuditCreateDate,State from Analysis
 END
@@ -26,7 +28,7 @@ END
 
 /*Procedure uspAnalysisRegister*/
 GO
-CREATE PROCEDURE uspAnalysisRegister
+CREATE OR ALTER PROCEDURE uspAnalysisRegister
 (
 @Name varchar(100)
 
@@ -36,8 +38,8 @@ BEGIN
 INSERT INTO Analysis(Name,State,AuditCreateDate) values(@Name,1,GETDATE());
 END
 
-
-CREATE PROCEDURE uspAnalysisEdit 
+GO
+CREATE OR ALTER PROCEDURE uspAnalysisEdit 
 (
 @AnalysisId INT,
 @Name VARCHAR(50)
@@ -48,8 +50,9 @@ BEGIN
 UPDATE Analysis SET Name = @Name
 WHERE AnalysisId = @AnalysisId
 END
+GO
 
-CREATE PROCEDURE uspAnalysisRemove 
+CREATE OR ALTER PROCEDURE uspAnalysisRemove 
 (
 @AnalysisId INT
 )
@@ -58,7 +61,7 @@ BEGIN
 DELETE FROM Analysis 
 WHERE AnalysisId = @AnalysisId
 END
-
+GO
 create or alter procedure uspAnalysischangEstate(
 @AnalysisId int,
 @State int
@@ -72,7 +75,7 @@ where AnalysisId = @AnalysisId
 
 end
 
-
+GO
 create table Exams(
 ExamId int identity(1,1) primary key not null,
 Name varchar(100),
@@ -81,7 +84,7 @@ State int not null,
 AuditCreateDate datetime2(7) not null,
 foreign key (AnalysisId) references Analysis(AnalysisId)
 )
-
+GO
 
 
 create or alter procedure uspExamList
@@ -91,7 +94,7 @@ select ex.ExamId, ex.Name, an.Name Analysis ,ex.AuditCreateDate, case ex.State w
 from Exams ex
 inner join Analysis an on ex.AnalysisId = an.AnalysisId
 end
-
+GO
 create or alter procedure uspExamById(
 @ExamId int
 )
@@ -103,7 +106,7 @@ begin
 	where ex.ExamId=@ExamId
 end
 
-
+GO
 
 create or alter procedure uspExamRegister
 (
@@ -112,13 +115,10 @@ create or alter procedure uspExamRegister
 )
 as
 begin
-
 insert into Exams (Name, AnalysisId, state, AuditCreateDate) values( @Name,@AnalysisId, 1,GETDATE())
-
-
 end
 
-
+GO
 Create or alter procedure UspExamEdit(
 @ExamId int,
 @Name varchar(100),
@@ -130,5 +130,30 @@ begin
 	update Exams set Name = @Name, AnalysisId = @AnalysisId where ExamId = @ExamId
 end
 
+go
+CREATE OR ALTER PROCEDURE uspExamRemove
+(
+@ExamId INT
+)
+as
+
+begin
+delete from Exams where ExamId = @ExamId
+end
+
+go
+
+create or alter procedure UspExamChangestate
+(
+@ExamId INT,
+@state int
+)
+as
+
+begin
+update Exams
+set State = @state
+where ExamId = @ExamId
+end
 
 -- exec uspAnalysisById 2
