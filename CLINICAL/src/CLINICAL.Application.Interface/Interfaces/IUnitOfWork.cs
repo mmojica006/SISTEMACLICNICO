@@ -13,5 +13,6 @@ namespace CLINICAL.Application.Interface.Interfaces
         /// </summary>
         IGenericRepository<Analysis> Analysis { get; }
         IExamRepository Exam { get; }
+        IPatientRepository Patient { get; }
     }
 }

@@ -143,7 +143,8 @@ end
 
 go
 
-create or alter procedure UspExamChangestate
+
+create or alter procedure uspExamChangeState
 (
 @ExamId INT,
 @state int
@@ -156,4 +157,80 @@ set State = @state
 where ExamId = @ExamId
 end
 
--- exec uspAnalysisById 2
+
+create table DocumentTypes
+(
+DocumentTypeId int identity(1,1) primary key not null,
+Document varchar(50),
+state int
+
+)
+
+create table TypeAges
+(
+TypeAgeId int identity(1,1) primary key not null,
+TypeAge varchar(15),
+State  int
+)
+
+create table Genders
+(
+GenderId int identity(1,1) primary key not null,
+Gender varchar(25),
+State int
+)
+
+
+create table Patients
+(
+PatiendId int identity(1,1) primary key not null,
+Names varchar(100),
+LastName varchar(50),
+MotherMaidenName varchar(50),
+DocumentTypeId int,
+DocumentNumber varchar(25),
+Phone varchar(15),
+TypeAgeId int,
+Age int,
+GenderId int,
+State int,
+AuditCreateDate datetime2(7),
+
+foreign key(DocumentTypeId) references DocumentTypes(DocumentTypeId),
+foreign key(TypeAgeId) references TypeAges(TypeAgeId),
+foreign key(GenderId) references Genders(GenderId),
+
+)
+
+go
+
+create or alter procedure uspPatientList
+as
+begin
+	select pa.PatiendId, pa.Names, CONCAT_WS(' ', pa.LastName, pa.MotherMaidenName) Surnames,
+	dt.Document DocumentType,
+	pa.DocumentNumber,
+	pa.Phone,
+	CONCAT_WS(' ', pa.Age, ta.TypeAge) Age,
+	ge.Gender,
+	case pa.State when 1 then 'ACTIVO' ELSE 'INACTIVO' END StatePatient,
+	pa.AuditCreateDate
+	from Patients pa
+	inner join  DocumentTypes dt on pa.DocumentTypeId = dt.DocumentTypeId
+	inner join TypeAges ta on pa.TypeAgeId = ta.TypeAgeId
+	inner join Genders ge on pa.GenderId = ge.GenderId
+
+end
+
+go
+create or alter procedure uspPatientById
+(
+@patientId int
+)
+as
+begin
+	select pa.PatiendId, pa.Names, pa.LastName, pa.MotherMaidenName, pa.DocumentTypeId, pa.DocumentNumber, pa.Phone, pa.TypeAgeId, pa.Age, pa.GenderId
+	from Patients pa where PatiendId = @patientId
+end
+
+-- exec uspPatientById 1 

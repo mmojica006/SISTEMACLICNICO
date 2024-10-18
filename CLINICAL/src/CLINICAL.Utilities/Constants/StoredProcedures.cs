@@ -20,5 +20,10 @@
         public const string uspExamChangeState = "uspExamChangeState";
         #endregion
 
+        #region uspPatients
+        public const string uspPatientList = "uspPatientList";
+        public const string uspPatientById = "uspPatientById";
+        #endregion
+
     }
 }
