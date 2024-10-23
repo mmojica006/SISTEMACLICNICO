@@ -24,6 +24,9 @@
         public const string uspPatientList = "uspPatientList";
         public const string uspPatientById = "uspPatientById";
         public const string uspPaPatientRegister = "uspPaPatientRegister";
+        public const string uspPatientEdit = "uspPatientEdit";
+        public const string uspPatientRemove = "uspPatientRemove";
+        public const string uspPatientChangEstate = "uspPatientChangEstate";
         #endregion
 
     }

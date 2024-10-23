@@ -62,6 +62,7 @@ DELETE FROM Analysis
 WHERE AnalysisId = @AnalysisId
 END
 GO
+
 create or alter procedure uspAnalysischangEstate(
 @AnalysisId int,
 @State int
@@ -238,10 +239,10 @@ select * from Patients
 go
 create or alter procedure uspPaPatientRegister
 (
-@Name varchar(100),
+@Names varchar(100),
 @LastName varchar(50),
 @MotherMaidenName varchar(50),
-@DocumenTypeId int,
+@DocumentTypeId int,
 @DocumentNumber varchar(25),
 @Phone varchar(15),
 @TypeAgeId int,
@@ -254,7 +255,63 @@ as
 begin
 
 insert into Patients(Names,LastName,MotherMaidenName,DocumentTypeId,DocumentNumber,Phone,TypeAgeId,Age,GenderId,State, AuditCreateDate)
-values (@Name,@LastName,@MotherMaidenName,@DocumenTypeId,@DocumentNumber,@Phone,@TypeAgeId,@Age,@GenderId,1,GETDATE())
+values (@Names,@LastName,@MotherMaidenName,@DocumentTypeId,@DocumentNumber,@Phone,@TypeAgeId,@Age,@GenderId,1,GETDATE())
 end
 
+go
+
+create or alter procedure uspPatientEdit
+(
+@PatientId int,
+@Names varchar(100),
+@LastName varchar(50),
+@MotherMaidenName varchar(50),
+@DocumentTypeId int,
+@DocumentNumber varchar(25),
+@Phone varchar(15),
+@TypeAgeId int,
+@Age int,
+@GenderId int
+)
+as
+
+begin
+update Patients 
+set Names = @Names, 
+	LastName = @LastName, 
+	MotherMaidenName = @MotherMaidenName, 
+	DocumentTypeId=@DocumentTypeId, 
+	DocumentNumber = @DocumentNumber, 
+	Phone = @Phone, 
+	TypeAgeId =@TypeAgeId, 
+	Age =@Age,
+	GenderId =@GenderId
+	where PatiendId = @PatientId
+
+end
+
+go
+CREATE OR ALTER PROCEDURE uspPatientRemove 
+(
+@PatientId INT
+)
+AS
+BEGIN
+DELETE FROM Patients 
+WHERE PatiendId = @PatientId
+END
+GO
+
+create or alter procedure uspPatientChangEstate(
+@PatientId int,
+@State int
+)
+as
+begin
+
+update Patients 
+set State = @State
+where PatiendId = @PatientId
+
+end
 -- exec uspPatientById 1 
