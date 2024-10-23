@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CLINICAL.Application.Dtos.Patient.Response;
+using CLINICAL.Application.UseCase.UseCases.Patient.Commands.CreateCommand;
 using CLINICAL.Domain.Entities;
 
 namespace CLINICAL.Application.UseCase.Mappings
@@ -9,6 +10,7 @@ namespace CLINICAL.Application.UseCase.Mappings
         public PatientMappingProfile()
         {
             CreateMap<Patient, GetPatientByIdResponseDto>().ReverseMap();
+            CreateMap<CreatePatientCommand, Patient>();
         }
     }
 }

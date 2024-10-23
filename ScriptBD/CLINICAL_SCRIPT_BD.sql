@@ -232,5 +232,29 @@ begin
 	select pa.PatiendId, pa.Names, pa.LastName, pa.MotherMaidenName, pa.DocumentTypeId, pa.DocumentNumber, pa.Phone, pa.TypeAgeId, pa.Age, pa.GenderId
 	from Patients pa where PatiendId = @patientId
 end
+go
+select * from Patients
+
+go
+create or alter procedure uspPaPatientRegister
+(
+@Name varchar(100),
+@LastName varchar(50),
+@MotherMaidenName varchar(50),
+@DocumenTypeId int,
+@DocumentNumber varchar(25),
+@Phone varchar(15),
+@TypeAgeId int,
+@Age int,
+@GenderId int
+
+)
+as
+
+begin
+
+insert into Patients(Names,LastName,MotherMaidenName,DocumentTypeId,DocumentNumber,Phone,TypeAgeId,Age,GenderId,State, AuditCreateDate)
+values (@Name,@LastName,@MotherMaidenName,@DocumenTypeId,@DocumentNumber,@Phone,@TypeAgeId,@Age,@GenderId,1,GETDATE())
+end
 
 -- exec uspPatientById 1 
