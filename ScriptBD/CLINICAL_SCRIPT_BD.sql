@@ -314,4 +314,47 @@ set State = @State
 where PatiendId = @PatientId
 
 end
+
+select * from Patients
+go
+create table Specialties
+(
+SpecialtyId int identity(1,1) primary key,
+Name varchar(100) not null,
+State int not null,
+AuditCreateDate datetime2(7) not null,
+
+)
+
+create table Medics
+(
+ MedicId int identity(1,1) primary key not null,
+ Names varchar(100) not null,
+ LastName varchar(100) not null,
+ MotherMaidenName varchar(100) not null,
+ Address varchar(255) null,
+ Phone varchar(15) null,
+ BirthDate date null,
+ DocumentTypeId int not null,
+ DocumentNumber varchar(25) not null,
+ SpecialtyId int not null,
+ State int not null,
+ AuditCreateDate datetime2(7) not null,
+ Foreign key(DocumentTypeId) references DocumentTypes(DocumentTypeId),
+ Foreign key(SpecialtyId) references Specialties(SpecialtyId)
+)
+
+go
+create or alter procedure uspMedicList
+as
+begin
+select me.MedicId, me.Names, CONCAT(' ', me.LastName, me.MotherMaidenName) Surnames ,
+sp.Name Specialty,dt.Document DocumentType, me.DocumentNumber, me.Address, me.Phone, me.BirthDate, 
+case me.State when 1 then 'ACTIVO' else 'INACTIVO' end StateMedic, me.AuditCreateDate 
+from Medics me
+inner join DocumentTypes dt on me.DocumentTypeId = dt.DocumentTypeId
+inner join Specialties sp on me.SpecialtyId = sp.SpecialtyId
+end
+
+
 -- exec uspPatientById 1 

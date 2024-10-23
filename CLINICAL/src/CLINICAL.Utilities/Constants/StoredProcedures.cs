@@ -29,5 +29,9 @@
         public const string uspPatientChangEstate = "uspPatientChangEstate";
         #endregion
 
+        #region uspMedics
+        public const string uspMedicList = "uspMedicList";
+        #endregion
+
     }
 }
