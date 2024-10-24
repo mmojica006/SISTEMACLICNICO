@@ -356,5 +356,66 @@ inner join DocumentTypes dt on me.DocumentTypeId = dt.DocumentTypeId
 inner join Specialties sp on me.SpecialtyId = sp.SpecialtyId
 end
 
+go
+
+create or alter procedure uspMedicById
+(
+@MedicId int
+)
+as
+begin
+	select me.MedicId, me.Names, me.LastName, me.MotherMaidenName,me.Address, me.Phone, me.BirthDate, me.DocumentTypeId, me.SpecialtyId
+	from Medics me
+	where me.MedicId = @MedicId
+end
+go
+--uspMedicById 3
+
+--Registrar médico
+
+create or alter procedure uspMedicRegister
+(
+@Names varchar(100),
+@LastName varchar(100),
+@MotherMaidenName varchar(100),
+@Address varchar(255),
+@Phone varchar(15),
+@BirthDate varchar(10),
+@DocumentTypeId int,
+@DocumentNumber varchar(25),
+@Speciality int
+
+)
+as 
+begin
+INSERT INTO [dbo].[Medics]
+           ([Names]
+           ,[LastName]
+           ,[MotherMaidenName]
+           ,[Address]
+           ,[Phone]
+           ,[BirthDate]
+           ,[DocumentTypeId]
+           ,[DocumentNumber]
+           ,[SpecialtyId]
+           ,[State]
+           ,[AuditCreateDate])
+     VALUES
+           (
+		  @Names,
+          @LastName,
+          @MotherMaidenName,
+           @Address,
+         @Phone,
+          @BirthDate,
+         @DocumentTypeId,
+         @DocumentNumber,
+         @Speciality,
+          1,
+           getdate()
+		   )
+
+end
+
 
 -- exec uspPatientById 1 

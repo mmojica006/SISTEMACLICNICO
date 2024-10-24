@@ -20,8 +20,4 @@
     <ProjectReference Include="..\CLINICAL.Utilities\CLINICAL.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Medic\Commands\" />
-  </ItemGroup>
-
 </Project>

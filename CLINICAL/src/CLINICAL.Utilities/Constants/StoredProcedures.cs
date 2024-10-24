@@ -31,6 +31,8 @@
 
         #region uspMedics
         public const string uspMedicList = "uspMedicList";
+        public const string uspMedicById = "uspMedicById";
+        public const string uspMedicRegister = "uspMedicRegister";
         #endregion
 
     }
