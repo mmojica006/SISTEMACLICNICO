@@ -20,9 +20,9 @@ namespace CLINICAL.Api.Controller
         }
 
         [HttpGet("ListExams")]
-        public async Task<IActionResult> ListExams()
+        public async Task<IActionResult> ListExams([FromQuery] GetAllExamQuery query)
         {
-            var response = await _mediator.Send(new GetAllExamQuery());
+            var response = await _mediator.Send(query);
             return Ok(response);
 
         }

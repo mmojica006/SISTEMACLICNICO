@@ -1,5 +1,6 @@
 --CREATE DATABASE CLINICAL
 --USE CLINICAL
+go
 CREATE TABLE Analysis (
 	AnalysisId int identity(1,1) primary key not null,
 	Name varchar(50),
@@ -9,9 +10,18 @@ CREATE TABLE Analysis (
 go
 
 --uspAnalysisList
-CREATE or alter PROCEDURE uspAnalysisList  as 
+CREATE or alter PROCEDURE uspAnalysisList
+(
+@PageNumber int,
+@PageSize int
+)
+as 
 BEGIN
-select AnalysisId,Name,AuditCreateDate,State from Analysis
+select AnalysisId,Name,AuditCreateDate,State 
+from Analysis 
+order by AnalysisId
+offset(@PageNumber -1)* @PageSize rows
+fetch next @PageSize rows only
 END
 
 GO
@@ -89,12 +99,20 @@ GO
 
 
 create or alter procedure uspExamList
+(
+@PageNumber int,
+@PageSize int
+)
 as
 begin
 select ex.ExamId, ex.Name, an.Name Analysis ,ex.AuditCreateDate, case ex.State when 1 then 'Activo' else 'Inactivo' end StateExam 
 from Exams ex
 inner join Analysis an on ex.AnalysisId = an.AnalysisId
+order by ex.ExamId
+offset(@PageNumber -1)* @PageSize rows
+fetch next @PageSize rows only
 end
+
 GO
 create or alter procedure uspExamById(
 @ExamId int
@@ -346,6 +364,10 @@ create table Medics
 
 go
 create or alter procedure uspMedicList
+(
+@PageNumber int,
+@PageSize int
+)
 as
 begin
 select me.MedicId, me.Names, CONCAT(' ', me.LastName, me.MotherMaidenName) Surnames ,
@@ -354,6 +376,9 @@ case me.State when 1 then 'ACTIVO' else 'INACTIVO' end StateMedic, me.AuditCreat
 from Medics me
 inner join DocumentTypes dt on me.DocumentTypeId = dt.DocumentTypeId
 inner join Specialties sp on me.SpecialtyId = sp.SpecialtyId
+order by me.MedicId
+offset(@PageNumber -1)* @PageSize rows
+fetch next @PageSize rows only
 end
 
 go
@@ -441,13 +466,15 @@ UPDATE [dbo].[Medics]
       [MotherMaidenName] = @MotherMaidenName,
       [Address] = @Address,
       [Phone] =  @Phone,
-      [BirthDate] =@BirthDate,
+      [BirthDate] =convert(date,@BirthDate),
       [DocumentTypeId] = @DocumentTypeId,
       [DocumentNumber] = @DocumentNumber,
       [SpecialtyId] = @Speciality
  WHERE MedicId = @MedicId
 
 end
+
+create or alterprocedure uspMedicRemove
 go
 
 -- exec uspPatientById 1 
