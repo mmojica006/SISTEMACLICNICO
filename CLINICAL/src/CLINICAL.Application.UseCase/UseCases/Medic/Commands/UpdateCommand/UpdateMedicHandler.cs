@@ -6,31 +6,30 @@ using CLINICAL.Utilities.HelperExtensions;
 using MediatR;
 using Entity = CLINICAL.Domain.Entities;
 
-namespace CLINICAL.Application.UseCase.UseCases.Medic.Commands.CreateCommand
+namespace CLINICAL.Application.UseCase.UseCases.Medic.Commands.UpdateCommand
 {
-    public class CreateMedicHandler : IRequestHandler<CreateMedicCommand, BaseResponse<bool>>
+    public class UpdateMedicHandler : IRequestHandler<UpdateMedicCommand, BaseResponse<bool>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        public CreateMedicHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateMedicHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public async Task<BaseResponse<bool>> Handle(CreateMedicCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<bool>> Handle(UpdateMedicCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseResponse<bool>();
             try
             {
                 var exam = _mapper.Map<Entity.Medic>(request);
                 var parameters = exam.GetPropertiesWithValues();
-                response.Data = await _unitOfWork.Medic.ExecAsync(SP.uspMedicRegister, parameters);
+                response.Data = await _unitOfWork.Medic.ExecAsync(SP.uspMedicEdit, parameters);
 
                 if (response.Data)
                 {
                     response.IsSuccess = true;
-                    response.Message = GlobalMessages.MESSAGE_SAVE;
+                    response.Message = GlobalMessages.MESSAGE_UPDATE;
                 }
             }
             catch (Exception ex)

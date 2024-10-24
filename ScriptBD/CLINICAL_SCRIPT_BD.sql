@@ -369,7 +369,7 @@ begin
 	where me.MedicId = @MedicId
 end
 go
---uspMedicById 3
+--uspMedicById 4
 
 --Registrar médico
 
@@ -407,7 +407,7 @@ INSERT INTO [dbo].[Medics]
           @MotherMaidenName,
            @Address,
          @Phone,
-          @BirthDate,
+          convert(date, @BirthDate),
          @DocumentTypeId,
          @DocumentNumber,
          @Speciality,
@@ -416,6 +416,38 @@ INSERT INTO [dbo].[Medics]
 		   )
 
 end
+SELECT FORMAT(getdate(),'yyyy/mm/dd') as date
+go
 
+create or alter procedure uspMedicEdit
+(
+@MedicId int,
+@Names varchar(100),
+@LastName varchar(100),
+@MotherMaidenName varchar(100),
+@Address varchar(255),
+@Phone varchar(15),
+@BirthDate varchar(10),
+@DocumentTypeId int,
+@DocumentNumber varchar(25),
+@Speciality int
+)
+as
+
+begin
+UPDATE [dbo].[Medics]
+   SET [Names] = @Names,
+      [LastName] = @LastName,
+      [MotherMaidenName] = @MotherMaidenName,
+      [Address] = @Address,
+      [Phone] =  @Phone,
+      [BirthDate] =@BirthDate,
+      [DocumentTypeId] = @DocumentTypeId,
+      [DocumentNumber] = @DocumentNumber,
+      [SpecialtyId] = @Speciality
+ WHERE MedicId = @MedicId
+
+end
+go
 
 -- exec uspPatientById 1 

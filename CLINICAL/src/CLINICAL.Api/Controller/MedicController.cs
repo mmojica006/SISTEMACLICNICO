@@ -1,6 +1,8 @@
 ﻿using CLINICAL.Application.UseCase.UseCases.Exam.Commands.CreateCommand;
+using CLINICAL.Application.UseCase.UseCases.Exam.Commands.UpdateCommand;
 using CLINICAL.Application.UseCase.UseCases.Exam.Queries.GetByIdQuery;
 using CLINICAL.Application.UseCase.UseCases.Medic.Commands.CreateCommand;
+using CLINICAL.Application.UseCase.UseCases.Medic.Commands.UpdateCommand;
 using CLINICAL.Application.UseCase.UseCases.Medic.Queries.GetAllQuery;
 using CLINICAL.Application.UseCase.UseCases.Medic.Queries.GetByIdQuery;
 using MediatR;
@@ -39,7 +41,14 @@ namespace CLINICAL.Api.Controller
         {
             var response = await _mediator.Send(command);
             return Ok(response);
-        } 
+        }
+
+        [HttpPut("Edit")]
+        public async Task<IActionResult> EditMedic([FromBody] UpdateMedicCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
 
     }
 }
