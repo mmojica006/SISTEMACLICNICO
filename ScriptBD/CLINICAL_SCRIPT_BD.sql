@@ -199,10 +199,10 @@ Gender varchar(25),
 State int
 )
 
-
+--drop table Patients
 create table Patients
 (
-PatiendId int identity(1,1) primary key not null,
+PatientId int identity(1,1) primary key not null,
 Names varchar(100),
 LastName varchar(50),
 MotherMaidenName varchar(50),
@@ -224,6 +224,10 @@ foreign key(GenderId) references Genders(GenderId),
 go
 
 create or alter procedure uspPatientList
+(
+@PageNumber int,
+@PageSize int
+)
 as
 begin
 	select pa.PatiendId, pa.Names, CONCAT_WS(' ', pa.LastName, pa.MotherMaidenName) Surnames,
@@ -238,7 +242,9 @@ begin
 	inner join  DocumentTypes dt on pa.DocumentTypeId = dt.DocumentTypeId
 	inner join TypeAges ta on pa.TypeAgeId = ta.TypeAgeId
 	inner join Genders ge on pa.GenderId = ge.GenderId
-
+	order by pa.PatiendId
+offset(@PageNumber -1)* @PageSize rows
+fetch next @PageSize rows only
 end
 
 go
@@ -474,7 +480,57 @@ UPDATE [dbo].[Medics]
 
 end
 
-create or alterprocedure uspMedicRemove
+--create or alterprocedure uspMedicRemove
 go
+
+--select * from Patients
+
+create table TakeExam
+(
+TakeExamId int identity(1,1) primary key not null,
+PatientId int not null,
+MedicId int not null,
+State int not null,
+ AuditCreateDate datetime2(7) not null,
+ Foreign key(PatientId) references Patients(PatientId),
+ Foreign key(MedicId) references Medics(MedicId)
+
+)
+
+go
+create table TakeExamDetail
+(
+TakeExamDetailId int identity(1,1) primary key not null,
+TakeExamId int not null,
+ExamId int not null,
+AnalysisId int not null
+
+
+)
+go
+create or alter procedure uspTakeExamList
+(
+@PageNumber Int,
+@PageSize int
+)
+as
+
+begin
+
+	select te.TakeExamId,
+	CONCAT_WS(' ', pa.LastName, pa.MotherMaidenName) Patient,
+	CONCAT_WS(' ', m.LastName, m.MotherMaidenName) Patient,
+	case te.state when 1 then 'FINALIZADO' ELSE 'PENDIEN' END StateTakeExam,
+	te.AuditCreateDate
+	from TakeExam te
+	inner join Patients pa on te.PatientId = pa.PatientId
+	inner join Medics m on te.MedicId = m.MedicId
+	order by te.TakeExamId 
+	offset (@PageNumber -1)* @PageSize rows
+	fetch next @PageSize rows only
+end
+
+
+
 
 -- exec uspPatientById 1 

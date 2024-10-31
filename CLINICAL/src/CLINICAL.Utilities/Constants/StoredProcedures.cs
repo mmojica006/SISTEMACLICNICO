@@ -36,6 +36,10 @@
         public const string uspMedicEdit = "uspMedicEdit";
         #endregion
 
+        #region uspTakeExams
+        public const string uspTakeExamList = "uspTakeExamList";
+        #endregion
+
     }
 
     public class TB
@@ -44,5 +48,6 @@
         public const string Exams = "Exams";
         public const string Medics = "Medics";
         public const string Patients = "Patients";
+        public const string TakeExam = "TakeExam";
     }
 }
