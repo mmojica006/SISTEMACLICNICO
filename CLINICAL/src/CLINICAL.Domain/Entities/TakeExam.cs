@@ -7,7 +7,7 @@
         public int? MedicId { get; set; }
         public int? State { get; set; }
         public DateTime? AuditCreateDate { get; set; }
-        public IEnumerable<TakeExamDetail> TakeExamDetails { get; set; }
+        public IEnumerable<TakeExamDetail>? TakeExamDetails { get; set; } = null!;
 
     }
 }
